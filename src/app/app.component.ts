@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import {Apollo, gql} from "apollo-angular";
+
+
+
+
 
 @Component({
   selector: 'app-root',

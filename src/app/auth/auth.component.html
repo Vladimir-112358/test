@@ -1,0 +1,29 @@
+<!-- <div class="container">
+  <h1>REVIZOR</h1>
+  <form [formGroup]="authForm"  class="modal-View">
+    <div class="form-group">
+      <div class="form-login">
+        <label for="userLogin">Логин</label>
+        <input type="text" id="userLogin" [(ngModel)] ="userLogin" formControlName="userLogin" class="form-control-1" required>
+      </div>
+      <div class="form-password">
+        <label for="password">Пароль</label>
+        <input type="password" id="password"  formControlName="password" class="form-control" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" (ngSubmit)="authorization()">Войти</button>
+  </form>
+  <p *ngIf="message">{{message}}</p>
+</div> -->
+
+<div>
+  <h2>Авторизация</h2>
+  <form >
+    <label for="userLogin">Логин</label>
+    <input type="text" id="userLogin" name="userLogin" [(ngModel)]="userLogin" required>
+    <label for="password">Пароль</label>
+    <input type="password" name="password" [(ngModel)]="password" required>
+
+    <button (click)="authorization()">Войти</button>
+  </form>
+</div>
