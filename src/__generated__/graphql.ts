@@ -18,6 +18,7 @@ export type Scalars = {
 };
 
 export type Auth = {
+  onLogin: any;
   __typename?: 'Auth';
   accessExpiresIn: Scalars['Int']['output'];
   accessToken: Scalars['String']['output'];

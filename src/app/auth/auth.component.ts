@@ -1,10 +1,31 @@
 import {Component, OnInit} from '@angular/core';
 import { AuthService } from '../AuthService';
-import {FormControl, FormGroup, Validators, FormsModule} from "@angular/forms";
-import { Injectable } from '@angular/core';
-import { Apollo } from "apollo-angular";
-import { gql } from 'apollo-angular';
+import {Observable, Observer} from "rxjs";
 
+
+
+
+
+// interface CustomObserver<T> extends Partial<Observer<T>>{
+//     data: {
+//       authorization: {
+//         accessToken: string
+//           refreshToken: string
+//       },
+//     }
+// }
+
+interface AuthorizationData{
+    data: {
+      data: {
+        authorization: {
+      __typename?: string;
+      accessToken: string
+      refreshToken: string
+        }
+      }
+    }
+}
 
 
 @Component({
@@ -74,18 +95,16 @@ export class AuthComponent{
 
   constructor(private autService: AuthService){}
   authorization(){
-    this.autService.onLogin(this.userLogin, this.password).subscribe((data: any) => {
-      const accessToken = data.authorization.accessToken;
-      const refreshToken = data.authorization.refreshToken
-      console.log(accessToken)
-
-      if(accessToken && refreshToken){
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
-        window.alert('авторизация прошла успешно')
-      } else{
-        window.alert("Ошибка авторизации")
-      }
+      this.autService.onLogin(this.userLogin, this.password).subscribe((data: any ) => {
+        const accessToken = data.data.authorization.accessToken;
+        const refreshToken = data.data.authorization.refreshToken;
+        if(accessToken && refreshToken){
+           localStorage.setItem('accessToken', accessToken)
+           localStorage.setItem('refreshToken', refreshToken)
+           window.document.write('success authorization')
+         } else{
+           window.alert("authorization error")
+         }
     })
   }
 }
