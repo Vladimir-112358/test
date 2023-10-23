@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { AuthService } from '../AuthService';
-import {FormControl, FormGroup, Validators, FormsModule} from "@angular/forms";
-import { Injectable } from '@angular/core';
-import { Apollo } from "apollo-angular";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { gql } from 'apollo-angular';
 
 
@@ -56,7 +54,7 @@ import { gql } from 'apollo-angular';
 //           } else {
 //               // если что-то пошло не так - выводим
 //               this.message = 'Неверный логин или пароль';
-//               window.alert(this.message)
+
 //           }
 //       },
 //       (error) => {
@@ -69,23 +67,36 @@ import { gql } from 'apollo-angular';
 //}
 
 export class AuthComponent{
-  userLogin: string;
-  password: string;
+  message: string
+  myForm: FormGroup
+  constructor(private autService: AuthService){
+    this.myForm = new FormGroup({
+      "userLogin": new FormControl("", Validators.required),
+      "password": new FormControl("", [Validators.required, Validators.min(5)])
 
-  constructor(private autService: AuthService){}
-  authorization(){
-    this.autService.onLogin(this.userLogin, this.password).subscribe((data: any) => {
-      const accessToken = data.authorization.accessToken;
-      const refreshToken = data.authorization.refreshToken
-      console.log(accessToken)
-
-      if(accessToken && refreshToken){
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
-        window.alert('авторизация прошла успешно')
-      } else{
-        window.alert("Ошибка авторизации")
-      }
     })
+  }
+  authorization(){
+    const userLogin = this.myForm.value.userLogin
+    const password = this.myForm.value.password
+
+    this.autService.onLogin(userLogin, password).subscribe((data: any ) => {
+        const accessToken = data.data.authorization.accessToken;
+        const refreshToken = data.data.authorization.refreshToken;
+
+        if(this.myForm.value.password.length < 5){
+          this.message = "Длинна пароля должна быть не менее 5 символов"
+
+        }
+        if(accessToken && refreshToken){
+          localStorage.setItem('accessToken', accessToken)
+          localStorage.setItem('refreshToken', refreshToken)
+          this.message = "Успешная авторизация"
+          window.document.write(this.message)
+        }
+      },
+      error => {
+        window.alert("ошибка " + error.message)
+      })
   }
 }

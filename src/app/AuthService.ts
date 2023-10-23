@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Apollo } from "apollo-angular";
 import { gql } from 'apollo-angular';
 
-const TOKENS = gql`query Query{
-  authorization(login: "dev", password: "KWLD:qojdlmaldq;w") {
+const TOKENS = gql`query Query($login: String!, $password: String!){
+  authorization(login: $login, password: $password) {
     accessToken
     refreshToken
   }

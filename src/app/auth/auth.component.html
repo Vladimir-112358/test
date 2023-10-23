@@ -16,14 +16,19 @@
   <p *ngIf="message">{{message}}</p>
 </div> -->
 
-<div>
-  <h2>Авторизация</h2>
-  <form >
-    <label for="userLogin">Логин</label>
-    <input type="text" id="userLogin" name="userLogin" [(ngModel)]="userLogin" required>
-    <label for="password">Пароль</label>
-    <input type="password" name="password" [(ngModel)]="password" required>
-
-    <button (click)="authorization()">Войти</button>
+<div class="container">
+  <h1>REVIZOR</h1>
+  <form [formGroup]="myForm" class="window">
+    <div class="form-group">
+      <div class="form-login">
+        <label>Логин</label>
+        <input type="text" name="userLogin" formControlName="userLogin"/>
+      </div>
+      <div class="form-password">
+        <label>Пароль</label>
+        <input type="password" name="password" formControlName="password">
+      </div>
+    </div>
+    <button (click)="authorization()">Вход</button>
   </form>
 </div>
